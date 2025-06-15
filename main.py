@@ -2,6 +2,8 @@ import colorama
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
+
 from routs.user_route import router as router_user
 from routs.auth_route import router as router_auth
 

@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud.crud_base import CRUDBase
 from models.user import UserModel, RefreshTokensModel
+from scheme.refresh_token_scheme import TokenUpdate, TokenCreate
 from scheme.user import User
 
 
@@ -21,7 +22,7 @@ class UserCrud(CRUDBase[UserModel, User, User]):
             username=data.username,
             author_token=data.token_author,
             password_hashed=data.password,
-            role=role)
+            role_id=role)
         session.add(user)
         await session.commit()
         await session.refresh(user)
@@ -54,3 +55,4 @@ class UserCrud(CRUDBase[UserModel, User, User]):
         await session.commit()
 
 user_cruds = UserCrud(UserModel)
+refresh_tokens_cruds = CRUDBase[RefreshTokensModel, TokenUpdate, TokenCreate](RefreshTokensModel)

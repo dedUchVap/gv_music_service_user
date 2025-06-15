@@ -5,7 +5,7 @@ from sqlalchemy.orm import DeclarativeBase
 from typing import AsyncGenerator
 
 
-DATABASE_URL = 'postgresql+asyncpg://postgres:123@localhost/gvMus'
+DATABASE_URL = 'postgresql+asyncpg://pirat:123@localhost/gvmus'
 engine = create_async_engine(DATABASE_URL, echo=True)
 
 class Base(DeclarativeBase):

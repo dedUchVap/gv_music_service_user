@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 class TokenUpdate(BaseModel):
@@ -5,4 +7,5 @@ class TokenUpdate(BaseModel):
 
 class TokenCreate(BaseModel):
     token_hash: str
-    
+    user_id: int
+    expires_at: datetime

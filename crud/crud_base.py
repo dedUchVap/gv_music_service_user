@@ -53,9 +53,11 @@ class CRUDBase(Generic[ModelType, UpdateSchema, CreateScheme]):
         await db.refresh(db_object)
         return db_object
 
-    async def get_by_value(self, db: AsyncSession, one_result: bool = True, **kwargs):
+    async def get_by_value(self, db: AsyncSession, one_result: bool = True, options: None | Sequence = None, **kwargs) -> ModelType | None:
         stmt = select(self.model).filter_by(**kwargs)
+        if options:
+            stmt = stmt.options(*options)
         result = await db.execute(stmt)
         if one_result:
-            return result.one_or_none()
+            return result.scalars().first()
         return result.scalars().all()

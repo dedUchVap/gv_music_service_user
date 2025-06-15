@@ -1,3 +1,5 @@
+import asyncio
+
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
@@ -13,10 +15,10 @@ class UserModel(Base):
     email: Mapped[str] = mapped_column(String(128), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
     author_token: Mapped[str] = mapped_column(String(), nullable=True)
-    role: Mapped[int] = mapped_column(ForeignKey('role.id'))
+    role_id: Mapped[int] = mapped_column(ForeignKey('role.id'))
 
     tokens = relationship('RefreshTokensModel', back_populates='user', cascade="all, delete-orphan")
-    role_name = relationship('RoleModel', back_populates='users')
+    role = relationship('RoleModel', back_populates='users')
 
 
 class RoleModel(Base):
@@ -25,7 +27,7 @@ class RoleModel(Base):
     id = Column(Integer, primary_key=True)
     role_name = Column(String(64), nullable=False)
 
-    users = relationship('UserModel', back_populates='role_name')
+    users = relationship('UserModel', back_populates='role')
 
 
 class RefreshTokensModel(Base):
@@ -42,4 +44,5 @@ class RefreshTokensModel(Base):
 
 async def create_tables():
     async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
         await conn.run_sync(Base.metadata.create_all)
