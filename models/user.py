@@ -1,8 +1,8 @@
-import asyncio
+from datetime import datetime
 
 from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from datetime import datetime
+
 from database.init_bd import Base, engine
 
 

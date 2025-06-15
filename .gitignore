@@ -3,3 +3,4 @@
 req.txt
 alembic.ini
 alembic/
+.env
